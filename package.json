@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "description": "hexo deploy to walrus plugin",
   "type": "module",
+  "keywords": [
+    "hexo",
+    "deploy",
+    "upload",
+    "walrus"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/klren0312/hexo-deployer-walrus#readme",
   "bugs": {
@@ -15,12 +21,6 @@
   "author": "zcdc",
   "files": [
     "dist"
-  ],
-  "keywords": [
-    "hexo",
-    "deploy",
-    "upload",
-    "walrus"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.cjs",
@@ -43,6 +43,12 @@
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
   },
+  "dependencies": {
+    "@mysten/sui": "^1.28.2",
+    "@mysten/walrus": "^0.0.19",
+    "fast-glob": "^3.3.3",
+    "mime": "^4.0.7"
+  },
   "devDependencies": {
     "@sxzz/eslint-config": "^6.1.2",
     "@sxzz/prettier-config": "^2.2.1",
@@ -58,11 +64,5 @@
   "engines": {
     "node": ">=20.18.0"
   },
-  "prettier": "@sxzz/prettier-config",
-  "dependencies": {
-    "@mysten/sui": "^1.28.2",
-    "@mysten/walrus": "^0.0.19",
-    "fast-glob": "^3.3.3",
-    "mime": "^4.0.7"
-  }
+  "prettier": "@sxzz/prettier-config"
 }

@@ -1,14 +1,17 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client'
-import { WalrusClient } from '@mysten/walrus'
-import path from 'path'
-import fs from 'fs'
-import type { HexoContext, HexoDeployment, TheFile } from './type'
-import mime from 'mime'
-import type { ClientWithExtensions } from '@mysten/sui/experimental'
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519'
+import { WalrusClient } from '@mysten/walrus'
+import mime from 'mime'
+import type { HexoContext, HexoDeployment, TheFile } from './type'
+import type { ClientWithExtensions } from '@mysten/sui/experimental'
 
-
-export default async function (this: HexoContext, deploy: HexoDeployment): Promise<void> {
+// eslint-disable-next-line import/no-default-export
+export default async function deployer(
+  this: HexoContext,
+  deploy: HexoDeployment,
+): Promise<void> {
   if (!deploy.private_key) {
     throw new Error('private_key is required')
   }
@@ -16,18 +19,22 @@ export default async function (this: HexoContext, deploy: HexoDeployment): Promi
     throw new Error('network must be testnet or mainnet')
   }
   if (deploy.epochs > 53) {
-    throw new Error('epochs must be less than 53.which is 53,corresponding to two years')
+    throw new Error(
+      'epochs must be less than 53.which is 53,corresponding to two years',
+    )
   }
   const { public_dir: publicDir, log } = this
   const keypair = Ed25519Keypair.fromSecretKey(deploy.private_key)
   log.info('Sui Wallet Address: ', keypair.toSuiAddress())
   const suiClient = new SuiClient({
     url: getFullnodeUrl(deploy.network),
-    network: deploy.network
+    network: deploy.network,
   }).$extend(
     WalrusClient.experimental_asClientExtension({
       storageNodeClientOptions: {
         timeout: 120_000,
+        // eslint-disable-next-line no-console
+        onError: (error) => console.log(error),
       },
     }),
   )
@@ -39,23 +46,26 @@ export default async function (this: HexoContext, deploy: HexoDeployment): Promi
 
   for (let i = 0, len = files.length; i < len - 1; i++) {
     const file = files[i]
-    log.info('Uploading file:' + file.path)
-    const blobId = await uploadFile(suiClient, keypair, deploy.epochs, file.content)
+    log.info(`Uploading file:${file.path}`)
+
+    const blobId = await uploadFile(
+      suiClient,
+      keypair,
+      deploy.epochs,
+      file.content,
+    )
     file.blobId = blobId
-    log.info(file.path + ' upload success, blobId: ' + blobId)
+    log.info(`${file.path} upload success, blobId: ${blobId}`)
   }
 }
 
 /**
  * get file list
- * @param dir 
- * @param filelist 
- * @returns 
+ * @param dir
+ * @param filelist
+ * @returns
  */
-function listDir(
-  dir: string,
-  filelist: TheFile[]
-) {
+function listDir(dir: string, filelist: TheFile[]) {
   const files: string[] = fs.readdirSync(dir)
   filelist = filelist || []
   files.forEach((file: string) => {
@@ -67,7 +77,7 @@ function listDir(
         path: path.join(dir, file).split('public')[1],
         mimetype: mime.getType(file) || '',
         content,
-        blobId: ''
+        blobId: '',
       }
       filelist.push(data)
     }
@@ -77,19 +87,23 @@ function listDir(
 
 /**
  * upload file to walrus
- * @param client 
- * @param keypair 
- * @param epochs 
- * @param fileContent 
- * @returns 
+ * @param client
+ * @param keypair
+ * @param epochs
+ * @param fileContent
+ * @returns
  */
 async function uploadFile(
-  client: ClientWithExtensions<{
-    walrus: WalrusClient;
-  }, SuiClient>,
+  client: ClientWithExtensions<
+    {
+      walrus: WalrusClient
+    },
+    SuiClient
+  >,
   keypair: Ed25519Keypair,
   epochs: number,
-  fileContent: Buffer<ArrayBufferLike>
+  // eslint-disable-next-line node/prefer-global/buffer
+  fileContent: Buffer<ArrayBufferLike>,
 ) {
   const { blobId } = await client.walrus.writeBlob({
     blob: fileContent,

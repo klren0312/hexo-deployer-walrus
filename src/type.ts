@@ -25,5 +25,6 @@ export interface TheFile {
   path: string
   mimetype: string
   blobId: string
+  // eslint-disable-next-line node/prefer-global/buffer
   content: Buffer<ArrayBufferLike>
 }
