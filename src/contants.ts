@@ -1,0 +1,4 @@
+export const sitePackageId = {
+  testnet: '0xf99aee9f21493e1590e7e5a9aea6f343a1f381031a04a732724871fc294be799',
+  mainnet: '0x26eb7ee8688da02c5f671679524e379f0b837a12f1d1d799f255b7eea260ad27'
+}

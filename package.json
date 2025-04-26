@@ -1,0 +1,68 @@
+{
+  "name": "hexo-deployer-walrus",
+  "version": "0.1.0",
+  "description": "hexo deploy to walrus plugin",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/klren0312/hexo-deployer-walrus#readme",
+  "bugs": {
+    "url": "https://github.com/klren0312/hexo-deployer-walrus/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klren0312/hexo-deployer-walrus.git"
+  },
+  "author": "zcdc",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "hexo",
+    "deploy",
+    "upload",
+    "walrus"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.cjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": "./dist/index.cjs",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint --cache .",
+    "lint:fix": "pnpm run lint --fix",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --cache --write .",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@sxzz/eslint-config": "^6.1.2",
+    "@sxzz/prettier-config": "^2.2.1",
+    "@types/node": "^22.15.2",
+    "bumpp": "^10.1.0",
+    "eslint": "^9.25.0",
+    "prettier": "^3.5.3",
+    "tsdown": "^0.9.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=20.18.0"
+  },
+  "prettier": "@sxzz/prettier-config",
+  "dependencies": {
+    "@mysten/sui": "^1.28.2",
+    "@mysten/walrus": "^0.0.19",
+    "fast-glob": "^3.3.3",
+    "mime": "^4.0.7"
+  }
+}
