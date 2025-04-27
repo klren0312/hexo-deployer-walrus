@@ -6,5 +6,5 @@ export default defineConfig({
   clean: true,
   dts: true,
   platform: 'node',
-  format: ['cjs']
+  format: ['cjs'],
 })

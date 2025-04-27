@@ -1,124 +1,51 @@
-import fs from 'node:fs'
+import { spawn } from 'node:child_process'
 import path from 'node:path'
-import { getFullnodeUrl, SuiClient } from '@mysten/sui/client'
-import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519'
-import { WalrusClient } from '@mysten/walrus'
-import mime from 'mime'
-import { Agent, fetch, type RequestInfo, type RequestInit } from 'undici'
-import type { HexoContext, HexoDeployment, TheFile } from './type'
-import type { ClientWithExtensions } from '@mysten/sui/experimental'
+import { fileURLToPath } from 'node:url'
+import { modifyValueInYaml } from './yaml-tool'
+import type { HexoContext, HexoDeployment } from './type'
 
 // eslint-disable-next-line import/no-default-export
-export default async function deployer(
+export default function deployer(
   this: HexoContext,
   deploy: HexoDeployment,
 ): Promise<void> {
-  if (!deploy.private_key) {
-    throw new Error('private_key is required')
-  }
-  if (!['testnet', 'mainnet'].includes(deploy.network)) {
-    throw new Error('network must be testnet or mainnet')
-  }
-  if (deploy.epochs > 53) {
-    throw new Error(
-      'epochs must be less than 53.which is 53,corresponding to two years',
-    )
-  }
-  const { public_dir: publicDir, log } = this
-  const keypair = Ed25519Keypair.fromSecretKey(deploy.private_key)
-  log.info('Sui Wallet Address: ', keypair.toSuiAddress())
-  const suiClient = new SuiClient({
-    url: getFullnodeUrl(deploy.network),
-    network: deploy.network,
-  }).$extend(
-    WalrusClient.experimental_asClientExtension({
-      storageNodeClientOptions: {
-        timeout: 600_000,
-        fetch: (url, init) => {
-          return fetch(url as RequestInfo, {
-            ...(init as RequestInit),
-            dispatcher: new Agent({
-              connectTimeout: 600_000,
-            }),
-          }) as unknown as Promise<Response>
-        },
-        onError: (error) => console.log(error),
-      },
-    }),
-  )
-
-  const files = listDir(publicDir, [])
-  if (files.length === 0) {
-    throw new Error('No files to upload')
-  }
-
-  for (let i = 0, len = files.length; i < len - 1; i++) {
-    const file = files[i]
-    log.info(`Uploading file:${file.path}`)
-
-    const blobId = await uploadFile(
-      suiClient,
-      keypair,
-      deploy.epochs,
-      file.content,
-    )
-    file.blobId = blobId
-    log.info(`${file.path} upload success, blobId: ${blobId}`)
-  }
-}
-
-/**
- * get file list
- * @param dir
- * @param filelist
- * @returns
- */
-function listDir(dir: string, filelist: TheFile[]) {
-  const files: string[] = fs.readdirSync(dir)
-  filelist = filelist || []
-  files.forEach((file: string) => {
-    if (fs.statSync(path.join(dir, file)).isDirectory()) {
-      filelist = listDir(path.join(dir, file), filelist)
-    } else {
-      const content = fs.readFileSync(path.join(dir, file))
-      const data = {
-        path: path.join(dir, file).split('public')[1],
-        mimetype: mime.getType(file) || '',
-        content,
-        blobId: '',
-      }
-      filelist.push(data)
+  return new Promise(() => {
+    if (!['testnet', 'mainnet'].includes(deploy.network)) {
+      throw new Error('network must be testnet or mainnet')
     }
-  })
-  return filelist
-}
+    if (deploy.epochs > 53) {
+      throw new Error(
+        'epochs must be less than 53. which is 53, corresponding to two years',
+      )
+    }
+    const { public_dir: publicDir, log } = this
+    // modify sites-config.yaml change env
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    const defaultConfigPath = path.join(__dirname, 'sites-config.yaml')
 
-/**
- * upload file to walrus
- * @param client
- * @param keypair
- * @param epochs
- * @param fileContent
- * @returns
- */
-async function uploadFile(
-  client: ClientWithExtensions<
-    {
-      walrus: WalrusClient
-    },
-    SuiClient
-  >,
-  keypair: Ed25519Keypair,
-  epochs: number,
-  // eslint-disable-next-line node/prefer-global/buffer
-  fileContent: Buffer<ArrayBufferLike>,
-) {
-  const { blobId } = await client.walrus.writeBlob({
-    blob: fileContent,
-    deletable: true,
-    epochs,
-    signer: keypair,
-  })
+    modifyValueInYaml(
+      deploy.sites_config_path || defaultConfigPath,
+      'default_context',
+      deploy.network,
+    )
 
-  return blobId
+    const cmd = spawn(deploy.site_builder_path || 'site-builder', [
+      '--config',
+      deploy.sites_config_path || defaultConfigPath,
+      'publish',
+      '--epochs',
+      String(deploy.epochs),
+      publicDir,
+    ])
+    cmd.stdout.on('data', (data) => {
+      log.info(String(data))
+    })
+    cmd.stderr.on('data', (data) => {
+      throw new Error(data)
+    })
+    cmd.on('close', () => {
+      log.info(`Upload completed, thank you for using walrus`)
+    })
+  })
 }

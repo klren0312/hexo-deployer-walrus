@@ -4,9 +4,10 @@ export interface HexoContext {
 }
 
 export interface HexoDeployment {
-  readonly private_key: string
   readonly network: 'mainnet' | 'testnet'
   readonly epochs: number
+  readonly site_builder_path: string
+  readonly sites_config_path: string
 }
 
 interface HexoDeployer {
@@ -19,12 +20,4 @@ interface HexoDeployerExtender {
 
 export interface HexoExtender {
   readonly deployer: HexoDeployerExtender
-}
-
-export interface TheFile {
-  path: string
-  mimetype: string
-  blobId: string
-  // eslint-disable-next-line node/prefer-global/buffer
-  content: Buffer<ArrayBufferLike>
 }

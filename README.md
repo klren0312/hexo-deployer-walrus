@@ -1,41 +1,23 @@
-# ts-starter [![npm](https://img.shields.io/npm/v/ts-starter.svg)](https://npmjs.com/package/ts-starter)
+# hexo-deployer-walrus
+IPFS and Pinata deployer plugin for Hexo
 
-[![Unit Test](https://github.com/sxzz/ts-starter/actions/workflows/unit-test.yml/badge.svg)](https://github.com/sxzz/ts-starter/actions/workflows/unit-test.yml)
+## Installation
 
-My awesome typescript library
-
-<!-- Remove belows -->
-
-Forked from [egoist/ts-starter](https://github.com/egoist/ts-starter)
-
-## Using this template
-
-- Search `ts-starter` and replace it with your custom package name.
-- Search `sxzz` and replace it with your name.
-- Remove sponsors below.
-
-Features:
-
-- Package manager [pnpm](https://pnpm.js.org/), safe and fast
-- Bundle with blazing fast [tsdown](https://github.com/sxzz/tsdown)
-- Test with [Vitest](https://vitest.dev)
-
-<!-- Remove aboves -->
-
-## Install
-
-```bash
-npm i ts-starter
+``` bash
+$ npm install hexo-deployer-walrus --save
 ```
 
-## Sponsors
+## Options
+You can configure this plugin in `_config.yml`. How to setting walrus site-builder can be found in the Walrus official [Documentation](https://docs.wal.app/walrus-sites/intro.html/)
 
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/sxzz/sponsors/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/sxzz/sponsors/sponsors.svg'/>
-  </a>
-</p>
+``` yaml
+deploy:
+  type: walrus (allow)
+  network: mainnet or testnet (allow)
+  epochs:  number of epochs to store file for walrus (allow, max is 53)
+  site_builder_path: default use the system environment variable, you can use custom path
+  sites_config_path: default use the plugin config, you can use custom path
+```
 
 ## License
-
-[MIT](./LICENSE) License © 2025 [三咲智子 Kevin Deng](https://github.com/sxzz)
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
