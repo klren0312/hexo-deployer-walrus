@@ -1,6 +1,6 @@
 {
   "name": "hexo-deployer-walrus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hexo deploy to walrus plugin",
   "type": "module",
   "keywords": [
