@@ -1,5 +1,5 @@
 # hexo-deployer-walrus
-IPFS and Pinata deployer plugin for Hexo
+Walrus deployer plugin for Hexo
 
 ## Installation
 
