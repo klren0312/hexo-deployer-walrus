@@ -4,6 +4,7 @@ import { getFullnodeUrl, SuiClient } from '@mysten/sui/client'
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519'
 import { WalrusClient } from '@mysten/walrus'
 import mime from 'mime'
+import { Agent, fetch, type RequestInfo, type RequestInit } from 'undici'
 import type { HexoContext, HexoDeployment, TheFile } from './type'
 import type { ClientWithExtensions } from '@mysten/sui/experimental'
 
@@ -32,8 +33,15 @@ export default async function deployer(
   }).$extend(
     WalrusClient.experimental_asClientExtension({
       storageNodeClientOptions: {
-        timeout: 120_000,
-        // eslint-disable-next-line no-console
+        timeout: 600_000,
+        fetch: (url, init) => {
+          return fetch(url as RequestInfo, {
+            ...(init as RequestInit),
+            dispatcher: new Agent({
+              connectTimeout: 600_000,
+            }),
+          }) as unknown as Promise<Response>
+        },
         onError: (error) => console.log(error),
       },
     }),
