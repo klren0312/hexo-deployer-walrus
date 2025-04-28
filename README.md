@@ -1,3 +1,4 @@
+![6bc7ee3a-384b-4309-8bbb-9ae500ab1998_0](https://github.com/user-attachments/assets/c195c384-fceb-4fc0-830f-9d6d57c49d82)
 # hexo-deployer-walrus
 Walrus deployer plugin for Hexo
 
