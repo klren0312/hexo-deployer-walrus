@@ -39,10 +39,11 @@ export default async function deployer(
             ...(init as RequestInit),
             dispatcher: new Agent({
               connectTimeout: 600_000,
+              maxRequestsPerClient: 1,
             }),
           }) as unknown as Promise<Response>
         },
-        onError: (error) => console.log(error),
+        // onError: (error) => console.log(error),
       },
     }),
   )

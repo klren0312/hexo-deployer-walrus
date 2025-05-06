@@ -4,8 +4,8 @@
     "": {
       "name": "ts-starter",
       "dependencies": {
-        "@mysten/sui": "^1.28.2",
-        "@mysten/walrus": "^0.0.19",
+        "@mysten/sui": "^1.29.0",
+        "@mysten/walrus": "^0.0.20",
         "fast-glob": "^3.3.3",
         "mime": "^4.0.7",
         "undici": "^7.8.0",
@@ -133,11 +133,11 @@
 
     "@mysten/bcs": ["@mysten/bcs@1.6.0", "https://mirrors.tencent.com/npm/@mysten/bcs/-/bcs-1.6.0.tgz", { "dependencies": { "@scure/base": "^1.2.4" } }, "sha512-ydDRYdIkIFCpHCcPvAkMC91fVwumjzbTgjqds0KsphDQI3jUlH3jFG5lfYNTmV6V3pkhOiRk1fupLBcsQsiszg=="],
 
-    "@mysten/sui": ["@mysten/sui@1.28.2", "https://mirrors.tencent.com/npm/@mysten/sui/-/sui-1.28.2.tgz", { "dependencies": { "@graphql-typed-document-node/core": "^3.2.0", "@mysten/bcs": "1.6.0", "@mysten/utils": "0.0.0", "@noble/curves": "^1.8.1", "@noble/hashes": "^1.7.1", "@scure/base": "^1.2.4", "@scure/bip32": "^1.6.2", "@scure/bip39": "^1.5.4", "gql.tada": "^1.8.2", "graphql": "^16.9.0", "poseidon-lite": "^0.2.0", "valibot": "^0.36.0" } }, "sha512-d+lSp3rAtuOX0taIiIv0KNILDsbmAB9koNGHBinfREraGnE9tUFW315UByuyvuZ9K53ji4i2risdtwxCQ1a8Zw=="],
+    "@mysten/sui": ["@mysten/sui@1.29.0", "", { "dependencies": { "@graphql-typed-document-node/core": "^3.2.0", "@mysten/bcs": "1.6.0", "@mysten/utils": "0.0.0", "@noble/curves": "^1.8.1", "@noble/hashes": "^1.7.1", "@scure/base": "^1.2.4", "@scure/bip32": "^1.6.2", "@scure/bip39": "^1.5.4", "gql.tada": "^1.8.2", "graphql": "^16.9.0", "poseidon-lite": "^0.2.0", "valibot": "^0.36.0" } }, "sha512-0rOGYy97DZaD+TocjKOgqPalPh/IZnbMYVI1ncAKYGR59SMeunuk7RCWL6rGA8hN//JBor4nVkXpId6FlbhEeA=="],
 
     "@mysten/utils": ["@mysten/utils@0.0.0", "https://mirrors.tencent.com/npm/@mysten/utils/-/utils-0.0.0.tgz", { "dependencies": { "@scure/base": "^1.2.4" } }, "sha512-KRI57Qow3E7TGqczimazwGf7+fwukdOi+6a31igSCzz0kPjAXbyK1a1gXaxeLMF8xEZ07ouW3RnsWt+EaUuHUw=="],
 
-    "@mysten/walrus": ["@mysten/walrus@0.0.19", "https://mirrors.tencent.com/npm/@mysten/walrus/-/walrus-0.0.19.tgz", { "dependencies": { "@mysten/bcs": "1.6.0", "@mysten/sui": "1.28.2", "@mysten/utils": "0.0.0", "@mysten/walrus-wasm": "0.0.6", "dataloader": "^2.2.3" } }, "sha512-xcN7tgz9fUdbjxz5e3/TIz9eZxJLfJxjZlQejYP5MdiD6jqM5Gr0nM6af1IF9gBRpx6N3IHmw0U29M+11oMm8Q=="],
+    "@mysten/walrus": ["@mysten/walrus@0.0.20", "", { "dependencies": { "@mysten/bcs": "1.6.0", "@mysten/sui": "1.29.0", "@mysten/utils": "0.0.0", "@mysten/walrus-wasm": "0.0.6", "dataloader": "^2.2.3" } }, "sha512-DSyVruibXhWSntU90VzJ0q1jEbuhgkRwEOrwwd4tGQ36vEDWbskzuCPIbaYHmJA7N9rcK9P0mqte3+wlTQINew=="],
 
     "@mysten/walrus-wasm": ["@mysten/walrus-wasm@0.0.6", "https://mirrors.tencent.com/npm/@mysten/walrus-wasm/-/walrus-wasm-0.0.6.tgz", {}, "sha512-rqXopgWqALp8jdVaHeW64P5I7MmzEGy8gCFbfzK8xGgWGpSjKtvVeHJ9EguRVOxALaYtDBVlmMPnoySJi+bLjA=="],
 

@@ -44,8 +44,8 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@mysten/sui": "^1.28.2",
-    "@mysten/walrus": "^0.0.19",
+    "@mysten/sui": "^1.29.0",
+    "@mysten/walrus": "^0.0.20",
     "fast-glob": "^3.3.3",
     "mime": "^4.0.7",
     "undici": "^7.8.0"
