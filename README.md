@@ -22,5 +22,12 @@ deploy:
   sites_config_path: default use the plugin config, you can use custom path
 ```
 
+## Demo Video
+
+
+https://github.com/user-attachments/assets/d5d5de33-8de8-4245-963d-76c8f72a9994
+
+
+
 ## License
 DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
